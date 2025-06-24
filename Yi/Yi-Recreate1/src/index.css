@@ -2,3 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 @import "tailwindcss";
+
+/* index.css */
+* {
+    cursor: none !important; /* Fully removes cursor on all elements */
+  }
+  
