@@ -44,7 +44,7 @@ const Navbar = () => {
             key="leftLogo"
             src={YIlogo}
             alt="Yi logo"
-            className="w-16 md:w-20 h-16 md:h-20 object-contain translate-x-4 md:translate-x-32"
+            className="w-20 md:w-20 h-100 md:h-20 object-contain translate-x-4 md:translate-x-32"
             initial={{ opacity: 0, scale: 1.15 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
@@ -172,7 +172,7 @@ const Navbar = () => {
             key="rightLogo"
             src={CIIlogo}
             alt="CII logo"
-            className="w-24 md:w-32 h-16 md:h-20 object-contain -translate-x-4 md:-translate-x-32"
+            className="w-24 md:w-32 h-40 md:h-20 object-contain -translate-x-4 md:-translate-x-32"
             initial={{ opacity: 0, scale: 1.15 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
