@@ -111,7 +111,7 @@ export default function LandingPage() {
       {/* Background Video */}
       <video
         className="absolute top-0 left-0 w-full object-cover z-0"
-        src="/assets/videos/landing_page.mp4"
+        src="https://chotacop.in/yi-ai/final.mp4"
         autoPlay
         loop
         muted
