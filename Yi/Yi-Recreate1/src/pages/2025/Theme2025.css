@@ -1,0 +1,147 @@
+.theme2025-container {
+    padding: 4rem 2rem;
+    background: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .theme2025-card {
+    display: flex;
+    flex-direction: row;
+    max-width: 1200px;
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    border: 1px solid #ccc;
+  }
+  
+  .theme2025-card:hover {
+    transform: scale(1.01);
+  }
+  
+  .theme2025-text {
+    flex: 1;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: fadeInLeft 1s ease-in-out;
+  }
+  
+  .theme2025-text h2 {
+    font-size: 2.75rem;
+    margin-bottom: 1.2rem;
+    color: #1a202c;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  
+  .theme2025-text p {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: #333333;
+    text-align: justify;
+  }
+  
+  .theme2025-image {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeInRight 1s ease-in-out;
+    border-left: 1px solid #e0e0e0;
+  }
+  
+  .theme2025-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* ========== WAVE TEXT ========== */
+  .wave-text span {
+    display: inline-block;
+    transition: transform 0.3s ease, color 0.3s ease;
+    cursor: default;
+    animation-delay: calc(var(--i) * 0.05s);
+  }
+  
+  .wave-text:hover span {
+    animation: wave 0.6s ease forwards;
+  }
+  
+  @keyframes wave {
+    0% {
+      transform: translateY(0);
+      color: green;
+    }
+    50% {
+      transform: translateY(-8px);
+      color: #0077ff;
+    }
+    100% {
+      transform: translateY(0);
+      color: orange;
+    }
+  }
+  
+  /* ========== ANIMATIONS ========== */
+  @keyframes fadeInLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes fadeInRight {
+    0% {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  /* ========== RESPONSIVE STYLES ========== */
+  @media (max-width: 768px) {
+    .theme2025-card {
+      flex-direction: column;
+    }
+  
+    .theme2025-text {
+      padding: 2rem;
+      text-align: center;
+    }
+  
+    .theme2025-text h2 {
+      font-size: 2rem;
+    }
+  
+    .theme2025-text p {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+  
+    .theme2025-image {
+      border-left: none;
+      border-top: 1px solid #e0e0e0;
+      height: 250px;
+    }
+  
+    .theme2025-image img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+  

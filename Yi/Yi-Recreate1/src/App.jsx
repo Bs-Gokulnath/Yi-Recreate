@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 import CustomCursor from './components/CustomCursor';
 import LandingPage from './pages/Homepage';
+import Theme2025 from './pages/2025/Theme2025';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -14,6 +15,7 @@ function App() {
         <CustomCursor />
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/about" element={<Theme2025 />} />
         </Routes>
         <Footer />
       </BrowserRouter>
