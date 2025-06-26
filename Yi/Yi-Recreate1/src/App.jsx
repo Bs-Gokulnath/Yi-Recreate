@@ -5,6 +5,8 @@ import CustomCursor from './components/CustomCursor';
 import LandingPage from './pages/Homepage';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Appabout from './pages/about/Appabout.jsx';
+
 
 function App() {
   return (
@@ -13,7 +15,10 @@ function App() {
         <Navbar />
         <CustomCursor />
         <Routes>
+          
           <Route path="/" element={<LandingPage />} />
+          <Route path="/about" element={<Appabout />} />
+       
         </Routes>
         <Footer />
       </BrowserRouter>
