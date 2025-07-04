@@ -1,20 +1,55 @@
-import React, { useState, useEffect } from 'react';
-import {AnimatePresence } from 'framer-motion';
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation, Link } from 'react-router-dom';
 
-import YIlogo  from '/assets/images/Yi.png';
+import YIlogo from '/assets/images/Yi.png';
 import CIIlogo from '/assets/images/Yi-CII.png';
 
 const navData = [
-  { label: 'Home',          path: '/',            items: [] },
-  { label: 'About',         path: '/about',       items: ['Young Indians (Structure & Genesis of Yi)', 'Confederation of Indian Industry', 'Chapters Cities', 'Past National Leadership', 'Media'] },
-  { label: '2025',          path: '/2025',        items: ['Theme 2025', 'Team (All Chapters)', 'Viksit Bharat Young Leaders Dialogue', 'Newsletters'] },
-  { label: 'Stakeholders',  path: '/stakeholders',items: ['Membership', 'YUVA', 'Thalir', 'Rural Initiative'] },
-  { label: 'Projects',      path: '/projects',    items: ['Masoom', 'Road Safety', 'Climate Change', 'Health', 'Accessibility'] },
-  { label: 'Initiatives',   path: '/initiatives', items: ['Learning', 'Innovation', 'Entrepreneurship'] },
-  { label: 'Summits',       path: '/summits',     items: ['Take Pride', 'Masoom Summit', 'Inno Fest', 'YiFi'] },
-  { label: 'International', path: '/international',items: ['G20 YEA', 'CAYE (Asia)', 'BIMSTEC', 'International Membership'] },
-  { label: 'Contact Us',    path: '/contact',     items: [] },
+  { label: 'Home', path: '/', items: [] },
+  {
+    label: 'About',
+    path: '/about',
+    items: ['Young Indians (Structure & Genesis of Yi)', 'Confederation of Indian Industry', 'Chapters Cities', 'Past National Leadership', 'Media'],
+  },
+  {
+    label: '2025',
+    path: '/2025',
+    items: ['Theme 2025', 'Team (All Chapters)', 'Viksit Bharat Young Leaders Dialogue', 'Newsletters'],
+  },
+  {
+    label: 'Stakeholders',
+    path: '/stakeholders',
+    items: ['Membership', 'YUVA', 'Thalir', 'Rural Initiative'],
+  },
+  {
+    label: 'Projects',
+    path: '/projects',
+    items: [
+      { label: 'Masoom', path: '/projects/masoom' },
+      { label: 'Road Safety', path: '/projects/road-safety' },
+      { label: 'Climate Change', path: '/projects/climate-change' },
+      { label: 'Health', path: '/projects/health' },
+      { label: 'Accessibility', path: '/projects/accessibility' },
+    ],
+  },
+  {
+    label: 'Initiatives',
+    path: '/initiatives',
+    items: ['Learning', 'Innovation', 'Entrepreneurship'],
+  },
+  {
+    label: 'Summits',
+    path: '/summits',
+    items: ['Take Pride', 'Masoom Summit', 'Inno Fest', 'YiFi'],
+  },
+  {
+    label: 'International',
+    path: '/international',
+    items: ['G20 YEA', 'CAYE (Asia)', 'BIMSTEC', 'International Membership'],
+  },
+  { label: 'Contact Us', path: '/contact', items: [] },
 ];
 
 const Navbar = () => {
@@ -23,11 +58,10 @@ const Navbar = () => {
   const [activeIdx, setActiveIdx] = useState(null);
   const [scrolled, setScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const cursorTimeoutRef = React.useRef(null);
+  const cursorTimeoutRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
-    onScroll();
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -39,7 +73,7 @@ const Navbar = () => {
       cursorTimeoutRef.current = setTimeout(() => {
         setMenuOpen(false);
         setActiveIdx(null);
-      }, 800); // Hide menu after 800ms of no movement
+      }, 800);
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => {
@@ -50,7 +84,6 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Yi Logo - Absolute Top Left, overlapping video */}
       <AnimatePresence>
         {!scrolled && (
           <motion.img
@@ -66,7 +99,6 @@ const Navbar = () => {
         )}
       </AnimatePresence>
 
-      {/* CII Logo - Absolute Top Right, overlapping video */}
       <AnimatePresence>
         {!scrolled && (
           <motion.img
@@ -82,7 +114,6 @@ const Navbar = () => {
         )}
       </AnimatePresence>
 
-      {/* Center Menu: Show on cursor move, transparent nav */}
       <nav className="fixed top-0 w-full z-50" style={{ background: 'transparent', pointerEvents: 'none' }}>
         <div className="flex justify-center items-center w-full h-full" style={{ height: '100px' }}>
           <AnimatePresence>
@@ -113,6 +144,7 @@ const Navbar = () => {
                     >
                       {cat.label}
                     </Link>
+
                     <AnimatePresence>
                       {activeIdx === idx && cat.items.length > 0 && (
                         <motion.ul
@@ -123,11 +155,17 @@ const Navbar = () => {
                           exit={{ opacity: 0, y: -8 }}
                           transition={{ duration: 0.2 }}
                         >
-                          {cat.items.map((sub) => (
-                            <li key={sub} className="px-4 py-1 hover:bg-gray-200 transition text-sm">
-                              {sub}
-                            </li>
-                          ))}
+                          {cat.label === 'Projects'
+                            ? cat.items.map((sub) => (
+                                <li key={sub.label} className="px-4 py-1 hover:bg-gray-200 transition text-sm">
+                                  <Link to={sub.path}>{sub.label}</Link>
+                                </li>
+                              ))
+                            : cat.items.map((sub) => (
+                                <li key={sub} className="px-4 py-1 hover:bg-gray-200 transition text-sm">
+                                  {sub}
+                                </li>
+                              ))}
                         </motion.ul>
                       )}
                     </AnimatePresence>
@@ -137,7 +175,7 @@ const Navbar = () => {
             )}
           </AnimatePresence>
 
-          {/* Mobile View: Hamburger Icon */}
+          {/* Mobile View: Hamburger */}
           <div className="block md:hidden" style={{ pointerEvents: 'auto' }}>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -147,34 +185,6 @@ const Navbar = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-
-            <AnimatePresence>
-              {isMobileMenuOpen && (
-                <motion.ul
-                  className="absolute top-14 left-1/2 transform -translate-x-1/2 bg-white bg-opacity-80 shadow-lg rounded-md p-4 flex flex-col gap-4 w-[90vw] text-center z-50"
-                  style={{ pointerEvents: 'auto' }}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {navData.map((item) => (
-                    <li key={item.label}>
-                      <Link
-                        to={item.path}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className={`text-base font-medium ${
-                          location.pathname === item.path ? 'text-blue-600' : 'text-black'
-                        }`}
-                        style={{ pointerEvents: 'auto' }}
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  ))}
-                </motion.ul>
-              )}
-            </AnimatePresence>
           </div>
         </div>
       </nav>

@@ -1,5 +1,5 @@
 import React from "react";
-import Theme2025i from "/assets/images/Bharat.png";
+import Theme2025i from "/assets/images/Bharatb.png";
 import ViksitBharat from "./ViksitBharat";
 import Newsletter from "./Newsletter";
 
