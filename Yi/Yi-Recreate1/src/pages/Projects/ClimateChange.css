@@ -1,0 +1,35 @@
+/* Global Styles */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: white;
+  color: black;
+}
+
+/* Utility classes */
+.text-balance {
+  text-wrap: balance;
+}
+
+.animate-spin-slow {
+  animation: spin 8s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Universal border style (replacing @apply border-border) */
+* {
+  border-color: #e5e7eb; /* Tailwind's default border-gray-300 */
+}
+
+/* Optional: Dark mode override */
+body.dark {
+  background-color: #0a0a0a;
+  color: #fafafa;
+}
