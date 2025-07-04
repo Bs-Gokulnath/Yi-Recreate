@@ -4,7 +4,7 @@
 @import "tailwindcss";
 
 /* index.css */
-* {
-    cursor: none !important; /* Fully removes cursor on all elements */
-  }
+/* * {
+    cursor: none !important; 
+  } */
   

@@ -1,7 +1,5 @@
 import React from "react";
-import Theme2025i from "/assets/images/Bharat.png";
-import ViksitBharat from "./ViksitBharat";
-import Newsletter from "./Newsletter";
+import Theme2025i from "/assets/images/Bharat_black.png";
 
 const Theme2025 = () => {
   const paragraphText =
@@ -43,15 +41,6 @@ const Theme2025 = () => {
             />
           </div>
         </div>
-      </section>
-
-      {/* Next Section */}
-      <section>
-        <ViksitBharat />
-      </section>
-
-      <section>
-        <Newsletter />
       </section>
     </>
   );

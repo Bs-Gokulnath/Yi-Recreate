@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaFacebookF, FaTwitter, FaYoutube, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
-import yiLogo from '/assets/images/Yi.png';
+import yiLogo from '/assets/images/Yi_black.png';
 
 const navLinkClass =
   'block font-semibold text-lg mb-2 transition-colors duration-200 hover:text-orange-500';

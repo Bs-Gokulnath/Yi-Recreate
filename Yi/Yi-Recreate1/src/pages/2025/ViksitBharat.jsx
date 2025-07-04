@@ -34,7 +34,7 @@ const ViksitBharat = () => {
             
             {/* Overlay */}
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 bg-transparent">
-  <span className="bg-transparent bg-opacity-80 text-black font-semibold text-lg px-4 py-2 rounded">
+  <span className="bg-transparent bg-opacity-80 text-white font-semibold text-lg px-4 py-2 rounded">
     Know More
   </span>
 </div>
