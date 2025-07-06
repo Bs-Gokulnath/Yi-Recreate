@@ -13,29 +13,44 @@ import HealthPage from './pages/Projects/Health';
 import ClimateChangePage from "./pages/Projects/ClimateChange";
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import TwentyTwentyFivePage from './pages/2025/2025';
+import ContactPage from './pages/Contact_Us/Contact_Us';
+import StakeholdersPage from './pages/Stakeholders/StakeholdersPage';
+import RuralInitiativesContent from './pages/Stakeholders/Rural_initatives';
+import MembershipPage from './pages/Stakeholders/Membership';
+import YuvaPage from './pages/Stakeholders/Yuva';
+import ThalirPage from './pages/Stakeholders/Thalir';
+import SigninPage from './pages/Signin';
+import LearningPage from './pages/Initiatives/Learning';
+import InnovationPage from './pages/Initiatives/Innovation';
+import EntrepreneurshipPage from './pages/Initiatives/Entrepreneurship';
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar />
-        <CustomCursor />
+        {/* <CustomCursor /> */}
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/2025" element={<TwentyTwentyFivePage />} />
+          <Route path="/contact-us" element={<ContactPage />} />
+          <Route path="/rural-initiatives" element={<RuralInitiativesContent />} />
+          <Route path="/membership" element={<MembershipPage />} />
+          <Route path="/yuva" element={<YuvaPage />} />
+          <Route path="/thalir" element={<ThalirPage />} />
+          <Route path="/signin" element={<SigninPage />} />
           <Route path="/theme-2025" element={<Theme2025 />} />
-          <Route path="/initiatives" element={<Initiatives />} />
+          <Route path="/learning" element={<LearningPage />} />
+          <Route path="/innovation" element={<InnovationPage />} />
+          <Route path="/entrepreneurship" element={<EntrepreneurshipPage />} />
           <Route path="/projects" element={<Projects />} />
-          <Route path="/projects/masoom" element={<Masoom />} />
-          <Route path="/projects/accessibility" element={<Accessibility />} />
-          <Route path="/projects/road-safety" element={<RoadSafetyPage />} />
-          <Route path="/projects/health" element={<HealthPage />} />
-          <Route
-            path="/projects/climate-change"
-            element={<ClimateChangePage />}
-          />
+          <Route path="/masoom" element={<Masoom />} />
+          <Route path="/accessibility" element={<Accessibility />} />
+          <Route path="/road-safety" element={<RoadSafetyPage />} />
+          <Route path="/health" element={<HealthPage />} />
+          <Route path="/climate-change" element={<ClimateChangePage />}/>
           {/* Add more routes as needed */}
         </Routes>
-        <Footer />
       </BrowserRouter>
     </div>
   );
