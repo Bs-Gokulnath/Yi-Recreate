@@ -204,12 +204,3 @@ export default function LandingPage() {
           )}
         </div>
 
-        {/* Stats Section */}
-        <Home_StatsCount />
-      </div>
-
-      {/* Footer */}
-      <Footer />
-    </div>
-  );
-}
