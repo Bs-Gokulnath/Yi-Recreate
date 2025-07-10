@@ -9,12 +9,15 @@ import {
   Ruler,
   Bus,
   Wifi,
+  Activity, Users, Eye,
 } from "lucide-react";
 import yiaccessibility from "/assets/images/Yi-Accessibility.png";
 import Carousel from "../../Components/Carousel";
 import AnimatedLogo from "../../components/AnimatedLogo";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import StatsCounterSection from "../../components/StatsCounterSection";
+
 
 export default function AccessibilityPage() {
 
@@ -24,20 +27,52 @@ export default function AccessibilityPage() {
     "/assets/images/Yi-accessibility-3.png",
     "/assets/images/Yi-accessibility-4.png",
   ]
+
+  const statsData = [
+    {
+      id: "ramps",
+      label: "RAMPS BUILT",
+      value: "1,000+",
+      numericValue: 1000,
+      icon: <Activity className="w-5 h-5" />,
+      color: "text-orange-700",
+      bgGradient: "from-orange-400 to-yellow-500",
+    },
+    {
+      id: "people",
+      label: "PEOPLE IMPACTED",
+      value: "50,000+",
+      numericValue: 50000,
+      icon: <Users className="w-5 h-5" />,
+      color: "text-green-700",
+      bgGradient: "from-green-400 to-teal-500",
+    },
+    {
+      id: "cities",
+      label: "CITIES REACHED",
+      value: "25+",
+      numericValue: 25,
+      icon: <Eye className="w-5 h-5" />,
+      color: "text-blue-700",
+      bgGradient: "from-blue-400 to-cyan-500",
+    },
+    {
+      id: "inclusion",
+      label: "INCLUSION FOCUS",
+      value: "100%",
+      numericValue: 100,
+      icon: <Ear className="w-5 h-5" />,
+      color: "text-blue-900",
+      bgGradient: "from-blue-300 to-cyan-500",
+    },
+  ];
+
   return (
     <>
-      <Navbar />
-      <div className="relative pt-36 min-h-screen">
+      <Navbar centerLogo={yiaccessibility}/>
+      <div className="relative pt-36 min-h-screen bg-gradient-to-br from-orange-50 via-green-50 to-white">
         <AnimatedLogo logoSrc={yiaccessibility} />
         <section className="py-20 bg-gradient-to-br from-orange-50 via-green-50 to-white">
-          {/* Centered Logo */}
-          <div className="flex justify-center mb-10">
-            <img
-              src={yiaccessibility}
-              alt="Yi Accessibility Logo"
-              className="w-34 h-34 object-contain"
-            />
-          </div>
 
           {/* Two Column Grid */}
           <div className="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-16 items-center">
@@ -98,26 +133,20 @@ export default function AccessibilityPage() {
         </section>
 
         {/* Stats Section */}
-        <section className="bg-gradient-to-br from-green-100 to-orange-100 py-6 text-center">
-          <div className="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
-              <h2 className="text-4xl font-bold text-green-800">1,000+</h2>
-              <p className="text-gray-700">Ramps Built</p>
-            </div>
-            <div>
-              <h2 className="text-4xl font-bold text-orange-800">50,000+</h2>
-              <p className="text-gray-700">People Impacted</p>
-            </div>
-            <div>
-              <h2 className="text-4xl font-bold text-blue-900">25+</h2>
-              <p className="text-gray-700">Cities Reached</p>
-            </div>
-            <div>
-              <h2 className="text-4xl font-bold text-green-800">100%</h2>
-              <p className="text-gray-700">Inclusion Focus</p>
-            </div>
-          </div>
-        </section>
+        <StatsCounterSection
+  statsData={statsData}
+  theme={{
+    bgFrom: 'orange-50',
+    bgVia: 'green-50',
+    bgTo: 'white',
+    primaryGlow: 'from-orange-400/20 to-green-400/20',
+    borderColor: 'border-orange-100/50',
+    hoverBorderColor: 'group-hover:border-green-200',
+    numberHover: 'group-hover:text-orange-700',
+    lineGradient: 'from-orange-400 to-green-500',
+  }}
+/>
+
 
         {/* Highlights Section */}
         <section className=" py-20">

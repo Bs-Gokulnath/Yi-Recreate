@@ -1,4 +1,3 @@
-// components/AnimatedLogo.jsx
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
@@ -17,7 +16,7 @@ export default function AnimatedLogo({ logoSrc }) {
           className="fixed inset-0 bg-white z-[9999] flex items-center justify-center"
           initial={{ scale: 5, opacity: 1 }}
           animate={{ scale: 1, opacity: 1 }}
-          exit={{ opacity: 0 }}
+          exit={{ opacity: 0, y: -280 }} // 🔥 Move upward while fading
           transition={{ duration: 1.5, ease: "easeInOut" }}
         >
           <motion.img
