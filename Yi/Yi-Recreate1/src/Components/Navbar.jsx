@@ -1,215 +1,230 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useLocation, Link } from 'react-router-dom';
-import { Menu, X, ChevronDown, ChevronUp } from 'lucide-react';
+import React, { useState, useEffect, useRef } from "react";
+import { useLocation, Link } from "react-router-dom";
+import { Menu, X, ChevronDown, ChevronUp } from "lucide-react";
+import ScrollToTopButton from "./ScrollToTop";
 
 const navData = [
-  { label: 'Home', path: '/', items: [] },
-  { label: 'About', path: '/about', items: ['Young Indians', 'Confederation of Indian Industry', 'Chapters Cities', 'Past National Leadership', 'Media'] },
-  { label: '2025', path: '/2025', items: ['Theme 2025', 'Team (All Chapters)', 'Viksit Bharat Young Leaders Dialogue', 'Newsletters'] },
+  { label: "Home", path: "/", items: [] },
   {
-    label: 'Stakeholders',
-    path: '', // No navigation path
+    label: "About",
+    path: "/about",
     items: [
-      { name: 'Membership', link: '/membership' },
-      { name: 'YUVA', link: '/yuva' },
-      { name: 'Thalir', link: '/thalir' },
-      { name: 'Rural Initiative', link: '/rural-initiatives' }
-    ]
+      "Young Indians",
+      "Confederation of Indian Industry",
+      "Chapters Cities",
+      "Past National Leadership",
+      "Media",
+    ],
   },
   {
-    label: 'Projects',
-    path: '', // No navigation path
+    label: "2025",
+    path: "/2025",
     items: [
-      { name: 'Masoom', link: '/masoom' },
-      { name: 'Road Safety', link: '/road-safety' },
-      { name: 'Climate Change', link: '/climate-change' },
-      { name: 'Health', link: '/health' },
-      { name: 'Accessibility', link: '/accessibility' },
-    ]
+      "Theme 2025",
+      "Team (All Chapters)",
+      "Viksit Bharat Young Leaders Dialogue",
+      "Newsletters",
+    ],
   },
   {
-    label: 'Initiatives',
-    path: '', // No navigation path
+    label: "Stakeholders",
+    path: "",
     items: [
-      { name: 'Learning', link: '/learning' },
-      { name: 'Innovation', link: '/innovation' },
-      { name: 'Entrepreneurship', link: '/entrepreneurship' }
-    ]
+      { name: "Membership", link: "/membership" },
+      { name: "YUVA", link: "/yuva" },
+      { name: "Thalir", link: "/thalir" },
+      { name: "Rural Initiative", link: "/rural-initiatives" },
+    ],
   },
-  { label: 'Summits', path: '/summits', items: ['Take Pride', 'Masoom Summit', 'Inno Fest', 'YiFi'] },
-  { label: 'International', path: '/international', items: ['G20 YEA', 'CAYE (Asia)', 'BIMSTEC', 'International Membership'] },
-  { label: 'Contact Us', path: '/contact-us', items: [] },
-  { label: 'Sign In', path: '/signin', items: [] },
+  {
+    label: "Projects",
+    path: "",
+    items: [
+      { name: "Masoom", link: "/masoom" },
+      { name: "Road Safety", link: "/road-safety" },
+      { name: "Climate Change", link: "/climate-change" },
+      { name: "Health", link: "/health" },
+      { name: "Accessibility", link: "/accessibility" },
+    ],
+  },
+  {
+    label: "Initiatives ",
+    path: "",
+    items: [
+      { name: "Learning", link: "/learning" },
+      { name: "Innovation", link: "/innovation" },
+      { name: "Entrepreneurship", link: "/entrepreneurship" },
+    ],
+  },
+  {
+    label: "Summits",
+    path: "/summits",
+    items: ["Take Pride", "Masoom Summit", "Inno Fest", "YiFi"],
+  },
+  {
+    label: "International",
+    path: "/international",
+    items: ["G20 YEA", "CAYE (Asia)", "BIMSTEC", "International Membership"],
+  },
+  { label: "Contact Us", path: "/contact-us", items: [] },
+  { label: "Sign In", path: "/signin", items: [] },
 ];
 
-const bgClassMap = {
-  '/masoom': 'bg-gradient-to-br from-blue-100 via-white to-blue-50',
-  '/road-safety': 'bg-gradient-to-br from-yellow-50 via-white to-yellow-100',
-  '/climate-change': 'bg-gradient-to-r from-green-500 via-cyan-400 to-blue-500',
-  '/health': 'bg-gradient-to-br from-green-50 via-white to-blue-50',
-  '/accessibility': 'bg-gradient-to-br from-orange-50 via-green-50 to-white',
-  '/learning': 'bg-gradient-to-br from-blue-50 via-white to-purple-50',
-  '/innovation': 'bg-gradient-to-br from-blue-50 via-white to-purple-50',
-  '/entrepreneurship': 'bg-gradient-to-br from-white via-gray-50 to-gray-100',
-};
-const defaultBgClass = 'bg-white/80';
-
-const Navbar = ({ centerLogo })  => {
+const Navbar = ({ centerLogo }) => {
   const location = useLocation();
-  const [menuVisible, setMenuVisible] = useState(true);
+  const [showLogoBar, setShowLogoBar] = useState(true);
+  const [showMenuBar, setShowMenuBar] = useState(true);
+  const [compactMenu, setCompactMenu] = useState(false);
+  const [forceShowFullMenu, setForceShowFullMenu] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileDropdowns, setMobileDropdowns] = useState({});
-  const lastMouseMoveRef = useRef(Date.now());
-  const [showLogoBar, setShowLogoBar] = useState(true);
   const lastScrollY = useRef(window.scrollY);
+  const dropdownTimeoutRef = useRef(null);
 
-  const blackLogoPaths = ['/membership', '/yuva', '/thalir', '/rural-initiatives', '/signin','/masoom', '/road-safety', '/climate-change', '/health', '/accessibility', '/learning', '/innovation', '/entrepreneurship'];
-  const isBlackLogoPage = blackLogoPaths.includes(location.pathname);
+  const toggleMobileDropdown = (label) => {
+    setMobileDropdowns((prev) => ({ ...prev, [label]: !prev[label] }));
+  };
 
-  // const logoBarBgClass = bgClassMap[location.pathname] || defaultBgClass;
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+    setMobileDropdowns({});
+  };
 
- const logoBarBgClass = 'bg-white';
-
-
-  useEffect(() => {
-    const handleMouseMove = () => {
-      lastMouseMoveRef.current = Date.now();
-      if (!menuVisible) setMenuVisible(true);
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [menuVisible]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (Date.now() - lastMouseMoveRef.current > 3000 && menuVisible) {
-        setMenuVisible(false);
-        setOpenDropdown(null);
+  const getCurrentPageLabel = () => {
+    const main = navData.find((nav) => nav.path === location.pathname);
+    if (main) return main.label;
+    for (const nav of navData) {
+      for (const item of nav.items) {
+        if (typeof item === "object" && item.link === location.pathname) return item.name;
       }
-    }, 500);
-    return () => clearInterval(interval);
-  }, [menuVisible]);
+    }
+    return "Page";
+  };
+
+  const currentPageLabel = getCurrentPageLabel();
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > lastScrollY.current && window.scrollY > 40) {
-        setShowLogoBar(false); // Scrolling down
-      } else {
-        setShowLogoBar(true); // Scrolling up
+      const isAtTop = window.scrollY === 0;
+      const goingDown = window.scrollY > lastScrollY.current;
+      setShowLogoBar(isAtTop);
+
+      if (isAtTop) {
+        setCompactMenu(false);
+        setShowMenuBar(true);
+        setForceShowFullMenu(false);
+      } else if (goingDown) {
+        setCompactMenu(true);
+        setShowMenuBar(false);
+        setForceShowFullMenu(false);
       }
+
       lastScrollY.current = window.scrollY;
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const toggleMobileDropdown = (label) => {
-    setMobileDropdowns((prev) => ({
-      ...prev,
-      [label]: !prev[label],
-    }));
-  };
-
-  const closeMobileMenu = () => setMobileMenuOpen(false);
 
   return (
     <>
-      {/* Navbar */}
-      <div
-        className={`fixed top-0 left-0  w-full flex items-center justify-between px-4 md:px-6 z-50 py-2 shadow-sm transition-transform duration-500 ${logoBarBgClass} ${showLogoBar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}
-        style={{ willChange: 'transform, opacity' }}
-      >
-        <div className="flex-1 flex items-center gap-3">
-          <div className="md:hidden">
-            <Menu className="w-8 h-8 text-black cursor-pointer" onClick={() => setMobileMenuOpen(true)} />
+      <ScrollToTopButton />
+
+      {/* Logo Bar */}
+      {showLogoBar && (
+        <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-sm transition-all duration-300">
+          <div className="flex justify-between items-center px-6 py-2">
+            <img src="/assets/images/Yi_whitelog.png" className="h-16 hidden md:block" alt="Yi" />
+            <img src={centerLogo || "/assets/images/Bharat.png"} className="h-20" alt="Bharat" />
+            <img src="/assets/images/CII_blue.png" className="h-16 hidden md:block" alt="CII" />
+            <Menu className="block md:hidden w-6 h-6 cursor-pointer" onClick={() => setMobileMenuOpen(true)} />
           </div>
-          {/* Yi Logo (Hidden in Mobile) */}
-          <img
-            src={isBlackLogoPage ? '/assets/images/Yi_black.png' : '/assets/images/Yi_whitelog.png'}
-            alt="Yi logo"
-            className="h-16 w-auto hidden md:block"
-          />
         </div>
+      )}
 
-       {/* Center Logo Section (Optional per page) */}
-<div className="flex-1 flex justify-center items-center">
-  <img
-    src={centerLogo || (isBlackLogoPage ? '/assets/images/Bharat_black.png' : '/assets/images/Bharat.png')}
-    alt="Center Logo"
-    className="h-20 w-auto"
-  />
-</div>
-
-
-        {/* CII Logo (Hidden in Mobile) */}
-        <div className="flex-1 flex justify-end items-center">
-          <img
-            src={isBlackLogoPage ? '/assets/images/CII_blue.png' : '/assets/images/CII_blue.png'}
-            alt="CII logo"
-            className="h-12 sm:h-14 md:h-16 lg:h-20 w-auto hidden md:block transition-all duration-300"
-          />
+      {/* Compact floating bar */}
+      {compactMenu && !showMenuBar && !forceShowFullMenu && (
+        <div
+          className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-white text-gray-900 font-bold text-sm px-6 py-2 rounded-full shadow-xl border border-gray-200 backdrop-blur-md cursor-pointer animate-glow"
+          onClick={() => {
+            setMobileMenuOpen(true); 
+            setCompactMenu(false);
+          }}
+        >
+          {currentPageLabel}
         </div>
-      </div>
+      )}
 
-      {/* Desktop Menu Bar */}
-      <div
-        className={`hidden md:block fixed left-1/2 z-50 transition-transform duration-300 origin-top ${menuVisible ? 'scale-y-100' : 'scale-y-0'}`}
-        style={{ top: '110px', transform: 'translateX(-50%)', pointerEvents: menuVisible ? 'auto' : 'none' }}
-      >
-        <nav className="bg-white/80 rounded shadow-lg px-3 py-2 flex justify-center items-center">
-          <ul className="flex flex-row gap-6 relative">
-            {navData.map((cat) => (
-              <li
-                key={cat.label}
-                className="relative cursor-pointer whitespace-nowrap font-medium"
-                onMouseEnter={() => setOpenDropdown(cat.label)}
-                onMouseLeave={() => setOpenDropdown(null)}
-              >
-                {cat.label === 'Stakeholders' ? (
-                  // Dropdown Only, No Navigation
-                  <div className="px-3 py-1 rounded cursor-pointer text-gray-700 hover:bg-gray-200 hover:text-black">
-                    {cat.label}
-                  </div>
-                ) : (
+      {/* Desktop Nav */}
+      {(showMenuBar || forceShowFullMenu) && (
+        <div className={`fixed left-0 w-full z-40 hidden md:block transition-opacity duration-300 ${showLogoBar ? "top-[100px]" : "top-0"}`}>
+          <nav className="bg-white/90 backdrop-blur-md shadow-md px-6 py-3">
+            <ul className="flex justify-center gap-6 relative">
+              {navData.map((cat) => (
+                <li
+                  key={cat.label}
+                  className="relative cursor-pointer font-medium"
+                  onMouseEnter={() => {
+                    clearTimeout(dropdownTimeoutRef.current);
+                    setOpenDropdown(cat.label);
+                  }}
+                  onMouseLeave={() => {
+                    dropdownTimeoutRef.current = setTimeout(() => {
+                      setOpenDropdown(null);
+                    }, 200);
+                  }}
+                >
                   <Link
                     to={cat.path}
                     className={`px-3 py-1 rounded transition-colors ${
-                      location.pathname === cat.path
-                        ? 'bg-black text-white font-semibold'
-                        : 'text-gray-700 hover:bg-gray-200 hover:text-black'
+                      location.pathname === cat.path ||
+                      cat.items.some(
+                        (sub) => typeof sub === "object" && sub.link === location.pathname
+                      )
+                        ? "bg-black text-white font-semibold"
+                        : "text-gray-700 hover:bg-gray-200 hover:text-black"
                     }`}
                   >
                     {cat.label}
                   </Link>
-                )}
 
-                {cat.items.length > 0 && openDropdown === cat.label && (
-                  <ul className="absolute left-1/2 -translate-x-1/2 top-full mt-1 bg-white rounded shadow-lg py-2 w-56 z-50">
-                    {cat.items.map((sub) => (
-                      <li key={sub.name || sub} className="px-4 py-2 hover:bg-gray-100 text-sm text-gray-700 cursor-pointer">
-                        {typeof sub === 'string' ? (
-                          sub
-                        ) : (
-                          <Link to={sub.link} className="block w-full h-full">
-                            {sub.name}
-                          </Link>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </div>
+                  {cat.items.length > 0 && openDropdown === cat.label && (
+                    <ul className="absolute left-1/2 -translate-x-1/2 top-full mt-2 bg-white rounded shadow-lg py-2 w-56 z-50">
+                      {cat.items.map((sub) => (
+                        <li key={sub.name || sub}>
+                          {typeof sub === "string" ? (
+                            <div className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                              {sub}
+                            </div>
+                          ) : (
+                            <Link
+                              to={sub.link}
+                              className={`block w-full px-4 py-2 text-sm ${
+                                location.pathname === sub.link
+                                  ? "bg-black text-white font-semibold"
+                                  : "text-gray-700 hover:bg-gray-100"
+                              }`}
+                            >
+                              {sub.name}
+                            </Link>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      )}
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50" onClick={closeMobileMenu}>
           <div
-            className="fixed top-0 left-0 h-full w-64 bg-white shadow-lg p-4 flex flex-col overflow-y-auto"
+            className="fixed top-0 left-0 h-full w-64 bg-white shadow-lg p-4 flex flex-col overflow-y-auto transform transition-transform duration-300"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-6">
@@ -224,7 +239,7 @@ const Navbar = ({ centerLogo })  => {
                     className="flex items-center justify-between cursor-pointer font-bold text-gray-800"
                     onClick={() => toggleMobileDropdown(cat.label)}
                   >
-                    {cat.label === 'Stakeholders' ? (
+                    {cat.label === "Stakeholders" ? (
                       <div className="px-3 py-2 rounded hover:bg-gray-200 hover:text-black">
                         {cat.label}
                       </div>
@@ -234,33 +249,44 @@ const Navbar = ({ centerLogo })  => {
                         onClick={closeMobileMenu}
                         className={`px-3 py-2 rounded transition-colors ${
                           location.pathname === cat.path
-                            ? 'bg-black text-white font-semibold'
-                            : 'hover:bg-gray-200 hover:text-black'
+                            ? "bg-black text-white font-semibold"
+                            : "hover:bg-gray-200 hover:text-black"
                         }`}
                       >
                         {cat.label}
                       </Link>
                     )}
-                    {cat.items.length > 0 && (
-                      mobileDropdowns[cat.label] ? (
+                    {cat.items.length > 0 &&
+                      (mobileDropdowns[cat.label] ? (
                         <ChevronUp className="w-4 h-4 mr-2" />
                       ) : (
                         <ChevronDown className="w-4 h-4 mr-2" />
-                      )
-                    )}
+                      ))}
                   </div>
 
                   {cat.items.length > 0 && mobileDropdowns[cat.label] && (
                     <div className="ml-4 mt-1 space-y-1">
                       {cat.items.map((sub) => (
                         <div key={sub.name || sub}>
-                          {typeof sub === 'string' ? (
-                            <div className="text-gray-600 text-sm hover:text-black cursor-pointer">{sub}</div>
+                          {typeof sub === "string" ? (
+                            <div
+                              className={`text-sm cursor-pointer px-3 py-1 ${
+                                location.pathname.includes(sub.toLowerCase())
+                                  ? "bg-black text-white font-semibold"
+                                  : "text-gray-600 hover:text-black"
+                              }`}
+                            >
+                              {sub}
+                            </div>
                           ) : (
                             <Link
                               to={sub.link}
-                              className="block text-gray-600 text-sm hover:text-black cursor-pointer"
                               onClick={closeMobileMenu}
+                              className={`block text-sm px-3 py-1 ${
+                                location.pathname === sub.link
+                                  ? "bg-black text-white font-semibold"
+                                  : "text-gray-600 hover:text-black"
+                              }`}
                             >
                               {sub.name}
                             </Link>
