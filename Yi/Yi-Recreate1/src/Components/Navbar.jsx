@@ -133,22 +133,37 @@ const Navbar = ({ centerLogo }) => {
 
       {/* Logo Bar */}
       {showLogoBar && (
-        <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-sm transition-all duration-300">
-          <div className="flex justify-between items-center px-6 py-2">
-            <img src="/assets/images/Yi_whitelog.png" className="h-16 hidden md:block" alt="Yi" />
-            <img src={centerLogo || "/assets/images/Bharat.png"} className="h-20" alt="Bharat" />
-            <img src="/assets/images/CII_blue.png" className="h-16 hidden md:block" alt="CII" />
-            <Menu className="block md:hidden w-6 h-6 cursor-pointer" onClick={() => setMobileMenuOpen(true)} />
-          </div>
-        </div>
-      )}
+  <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-sm transition-all duration-300">
+    <div className="flex items-center justify-between px-6 py-2">
+      {/* Left Logo */}
+      <div className="flex-1 flex justify-start">
+        <img src="/assets/images/Yi_whitelog.png" className="h-16 hidden md:block" alt="Yi" />
+      </div>
+
+      {/* Center Logo */}
+      <div className="flex-1 flex justify-center">
+        <img src={centerLogo || "/assets/images/Bharat.png"} className="h-20" alt="Bharat" />
+      </div>
+
+      {/* Right Logo + Menu Icon */}
+      <div className="flex-1 flex justify-end items-center">
+        <img src="/assets/images/CII_blue.png" className="h-16 hidden md:block" alt="CII" />
+        <Menu
+          className="ml-4 block md:hidden w-6 h-6 cursor-pointer"
+          onClick={() => setMobileMenuOpen(true)}
+        />
+      </div>
+    </div>
+  </div>
+)}
 
       {/* Compact floating bar */}
       {compactMenu && !showMenuBar && !forceShowFullMenu && (
         <div
           className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-white text-gray-900 font-bold text-sm px-6 py-2 rounded-full shadow-xl border border-gray-200 backdrop-blur-md cursor-pointer animate-glow"
           onClick={() => {
-            setMobileMenuOpen(true); 
+            // setMobileMenuOpen(true); 
+            setForceShowFullMenu(true);
             setCompactMenu(false);
           }}
         >
